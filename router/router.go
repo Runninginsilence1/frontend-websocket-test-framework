@@ -25,5 +25,8 @@ func Router(r *gin.Engine) {
 	})
 
 	r.GET("/device", service.GetRouterList())
+	r.GET("/connect", service.GetRouterList())
+	r.GET("/getDiskList", service.GetDiskList())
+	r.GET("/getPartList", service.GetPartList())
 	r.GET("/usableDevice", service.GetUsableList())
 }
