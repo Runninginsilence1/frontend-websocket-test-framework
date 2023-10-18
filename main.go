@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -25,6 +24,7 @@ func main() {
 	}}
 
 	r.GET("/ws", func(c *gin.Context) {
+		defer c.JSON(200, "")
 		wsConn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
 		if err != nil {
 			log.Printf("WebSocket升级失败：%v", err)
@@ -37,7 +37,8 @@ func main() {
 		}
 
 		// 开一个go协程，用来处理发送数据；
-		sendExit := make(chan bool)
+		sendExit := make(chan struct{})
+		fmt.Printf("敲击Enter发送数据:\n")
 		go func() {
 			var payload = &common.R{}
 			var input string
@@ -48,39 +49,31 @@ func main() {
 					log.Printf("协程已退出\n")
 					return
 				default:
-					fmt.Print("请输入你的指令\n")
-					_, err = fmt.Scanln(&input)
+					_, err = fmt.Scan(&input)
 					if err != nil {
 						continue
 					}
-					if input != "send" {
-						log.Printf("指令有误，请重新输入")
-					} else { // 使用类似于广播的形式把配置文件里面的数据读进来然后发送出去；
-						utils.ReadJSON(payload)
-						err = wsConn.WriteJSON(payload)
-						if err != nil {
-							log.Println(err)
-							return
-						}
+					utils.ReadSendMsg(payload)
+					err = wsConn.WriteJSON(payload)
+					if err != nil {
+						log.Println(err)
+						return
 					}
 				}
 			}
 		}()
 
 		// 这里接收到后开始写
-		payload := &common.R{}
+		var msgBytes []byte
 		for {
-			err = wsConn.ReadJSON(payload)
+			_, msgBytes, err = wsConn.ReadMessage()
 			if err != nil {
-				log.Printf("%v可能前端已经断开ws连接，或者我这里json设置的数据不对", err)
-				sendExit <- true
+				fmt.Printf("[Error] func (conn *WebSocket)ReadJson!\nErr: %v\n", err)
+				sendExit <- struct{}{}
 				return
 			}
-			var R, _ = json.Marshal(payload)
-			msg := string(R)
-			fmt.Println("打印一下payload")
-			fmt.Println(msg)
-			//wsConn.WriteJSON(payload)
+			fmt.Println("打印接收到的数据：")
+			fmt.Println(string(msgBytes))
 		}
 	})
 	r.Run(global.ServerPort)

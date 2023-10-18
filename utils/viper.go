@@ -15,8 +15,8 @@ func init() {
 	}
 }
 
-func ReadJSON(data any) {
-	viper.SetConfigFile("../message.json")
+func ReadSendMsg(data any) {
+	viper.SetConfigFile("./message.json")
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Printf("读取配置文件出现错误: %v", err)
