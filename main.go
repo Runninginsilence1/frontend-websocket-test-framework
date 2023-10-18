@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"frontend-websocket-test-framework/common"
-	. "frontend-websocket-test-framework/router"
-	"frontend-websocket-test-framework/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"risk/websocket/common"
+	"risk/websocket/global"
+	. "risk/websocket/router"
+	"risk/websocket/utils"
 )
 
 // 通过读取配置文件的方式，来做成类似于 postman websocket调试的那种效果；
@@ -82,5 +83,5 @@ func main() {
 			//wsConn.WriteJSON(payload)
 		}
 	})
-	r.Run(":3010")
+	r.Run(global.ServerPort)
 }

@@ -1,9 +1,9 @@
 package router
 
 import (
-	"frontend-websocket-test-framework/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"risk/websocket/service"
 )
 
 // 自己往service包里面加接口

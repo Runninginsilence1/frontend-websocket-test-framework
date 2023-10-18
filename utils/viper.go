@@ -2,10 +2,18 @@ package utils
 
 import (
 	"fmt"
-	"frontend-websocket-test-framework/global"
 	"github.com/spf13/viper"
 	"log"
+	"risk/websocket/global"
 )
+
+func init() {
+	err := LoadConfig()
+	if err != nil {
+		fmt.Println("[ERROR] LoadConfig")
+		return
+	}
+}
 
 func ReadJSON(data any) {
 	viper.SetConfigFile("../message.json")
@@ -33,13 +41,15 @@ func LoadConfig() error {
 	}
 
 	// Put your global variable here:
-	global.ServerPort = viper.GetString("serverPort")
+	global.ServerPort = ":" + viper.GetString("serverPort")
+	fmt.Println("serverPort from config is ", global.ServerPort)
 	return nil
 }
 
-func ViperMustGetKey[T any](key string) T {
-	if !viper.IsSet(key) {
-		panic(fmt.Sprintf("%v is invalid key! Please check file: config.yaml", key))
-	}
-	return viper.Get(key)
-}
+// need type assertion
+//func ViperMustGetKey[T any](key string) T {
+//	if !viper.IsSet(key) {
+//		panic(fmt.Sprintf("%v is invalid key! Please check file: config.yaml", key))
+//	}
+//	return viper.Get(key)
+//}

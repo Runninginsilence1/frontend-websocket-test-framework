@@ -1,4 +1,4 @@
-module frontend-websocket-test-framework
+module risk/websocket
 
 go 1.20
 

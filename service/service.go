@@ -1,9 +1,9 @@
 package service
 
 import (
-	"frontend-websocket-test-framework/common"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"risk/websocket/common"
 )
 
 func GetRouterList() gin.HandlerFunc {
