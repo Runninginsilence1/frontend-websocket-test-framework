@@ -24,7 +24,6 @@ func main() {
 	}}
 
 	r.GET("/ws", func(c *gin.Context) {
-		defer c.JSON(200, "")
 		wsConn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
 		if err != nil {
 			log.Printf("WebSocket升级失败：%v", err)

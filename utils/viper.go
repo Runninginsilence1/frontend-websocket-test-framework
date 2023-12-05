@@ -46,6 +46,15 @@ func LoadConfig() error {
 	return nil
 }
 
+func NewViper(name, cfgType, path string) *viper.Viper {
+	v := viper.New()
+	v.SetConfigType(cfgType)
+	v.SetConfigName(name)
+	v.AddConfigPath(path)
+
+	return v
+}
+
 // need type assertion
 //func ViperMustGetKey[T any](key string) T {
 //	if !viper.IsSet(key) {
