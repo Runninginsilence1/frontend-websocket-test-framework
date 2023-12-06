@@ -3,3 +3,4 @@ sender.exe
 .vscode
 send*.json
 *.exe
+go.sum
