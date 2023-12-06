@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"gowscat/service"
 	"net/http"
-	"risk/websocket/service"
 )
 
 // 自己往service包里面加接口

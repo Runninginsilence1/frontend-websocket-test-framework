@@ -3,8 +3,8 @@ package utils
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	"gowscat/global"
 	"log"
-	"risk/websocket/global"
 )
 
 func init() {

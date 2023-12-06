@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
+	"gowscat/common"
 	"net/http"
-	"risk/websocket/common"
 )
 
 func GetRouterList() gin.HandlerFunc {
